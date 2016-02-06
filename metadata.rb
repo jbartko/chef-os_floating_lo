@@ -1,0 +1,7 @@
+name             'os_floating_lo'
+maintainer       'John Bartko'
+maintainer_email 'jbartko@gmail.com'
+license          'MIT'
+description      'Installs/Configures os_floating_lo'
+long_description 'Installs/Configures os_floating_lo'
+version          '0.1.0'
