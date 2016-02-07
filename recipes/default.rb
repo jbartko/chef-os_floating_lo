@@ -23,3 +23,30 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+
+# https://gist.github.com/scalp42/7606857
+resource_exists = proc do |name|
+  begin
+    resources name
+    true
+  rescue Chef::Exceptions::ResourceNotFound
+    false
+  end
+end
+
+# catch properly hinted nodes w/o ohai in resolved cookbooks
+ohai_hint 'openstack' if node.attribute?('openstack')
+
+if resource_exists['ohai_hint[openstack]']
+  ifconfig node['openstack']['public_ipv4'] do
+    device node['os_floating_lo']['device']
+    mask node['os_floating_lo']['mask']
+  end
+else
+  Chef::Log.warn <<-EOT.prepend("#{cookbook_name}::#{recipe_name}\n").chomp
+    No Ohai openstack hints! Cannot assign floating IP to #{node['os_floating_lo']['device']}}
+    issue \"echo -n '{}' | sudo tee #{node['ohai']['hints_path']}/openstack.json\"
+    - OR -
+    add \"ohai_hint 'openstack'\" to a recipe in the node's run_list
+  EOT
+end
