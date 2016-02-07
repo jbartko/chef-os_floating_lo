@@ -1,38 +1,31 @@
-# os_floating_lo-cookbook
+# os_floating_lo
 
-TODO: Enter the cookbook description here.
+Add system-level visibility into OpenStack floating IPv4 addresses.
+
+This cookbook lights up an OpenStack instance's floating IPv4 address on a loopback alias interface. System resources which cannot leverage Ohai can now gain insight into floating IPs.
 
 ## Supported Platforms
 
-TODO: List your supported platforms.
+- Centos
+- Debian
+- Fedora
+- Debian
 
 ## Attributes
 
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['os_floating_lo']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
+| Attribute | Default | Description |
+| --- | --- | --- |
+|`['device']`|`'lo:0'`|Device on which to apply the floating IP|
+|`['mask']`|`'255.255.255.255'`|Netmask for the floating IP. Do not change unless absolutely required.|
 
 ## Usage
-
-### os_floating_lo::default
 
 Include `os_floating_lo` in your node's `run_list`:
 
 ```json
 {
   "run_list": [
-    "recipe[os_floating_lo::default]"
+    "recipe[os_floating_lo]"
   ]
 }
 ```
@@ -40,3 +33,5 @@ Include `os_floating_lo` in your node's `run_list`:
 ## License and Authors
 
 Author:: John Bartko (<jbartko@gmail.com>)
+
+License:: [MIT License](LICENSE)
