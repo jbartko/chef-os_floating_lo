@@ -37,10 +37,14 @@ end
 # catch properly hinted nodes w/o ohai in resolved cookbooks
 ohai_hint 'openstack' if node.attribute?('openstack')
 
+# add IP to interface at compile time, reload Ohai for remaining run_list
 if resource_exists['ohai_hint[openstack]']
   ifconfig node['openstack']['public_ipv4'] do
     device node['os_floating_lo']['device']
     mask node['os_floating_lo']['mask']
+  end.run_action(:add)
+  ohai 'network/interfaces' do
+    action :reload
   end
 else
   Chef::Log.warn <<-EOT.prepend("#{cookbook_name}::#{recipe_name}\n").chomp
