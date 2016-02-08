@@ -1,4 +1,4 @@
-# feature/compile-time
+# 0.1.2
 
 - add floating IP address to loopback interface at compile time
 - reload Ohai hints to make attributes available to later run_list items
